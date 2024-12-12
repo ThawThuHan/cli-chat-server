@@ -45,7 +45,7 @@ func handleConnection(conn net.Conn, username string) {
 		}
 
 		received := string(buf[:n])
-		log.Printf("Received from %s: %s", username, received)
+		log.Printf("Received from %s", received)
 
 		// Forward the message to all other clients except the sender
 		mu.Lock()
@@ -63,7 +63,7 @@ func handleConnection(conn net.Conn, username string) {
 
 func startServer() error {
 	server := ReadConfig() // Assuming this function reads your server config.
-	addr := fmt.Sprintf("%s:%d", server.Server, server.Port)
+	addr := fmt.Sprintf("%s:%d", server.IP, server.Port)
 	listener, err := net.Listen("tcp", addr)
 	if err != nil {
 		return fmt.Errorf("error listening: %w", err)
@@ -74,7 +74,6 @@ func startServer() error {
 
 	for {
 		conn, err := listener.Accept()
-		fmt.Println(conn.RemoteAddr().String())
 		if err != nil {
 			log.Printf("Error accepting connection: %v", err)
 			continue
@@ -94,7 +93,7 @@ func startServer() error {
 		}
 
 		username := strings.Split(string(buf[:n]), ":")[0]
-		log.Printf("New client connected: %s", username)
+		log.Printf("New client connected: %s from %s", username, conn.RemoteAddr().String())
 		go handleConnection(conn, username)
 	}
 }
