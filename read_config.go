@@ -3,7 +3,8 @@ package main
 import (
 	"log"
 	"os"
-	"strings"
+	"path/filepath"
+	"runtime"
 
 	"gopkg.in/yaml.v3"
 )
@@ -53,14 +54,22 @@ func checkFileAndCreateIfNotExist(filePath string, server *Server) {
 }
 
 func getFilePathByOperatingSystem() string {
-	operatingSystem := os.Getenv("OS")
-	operatingSystem = strings.ToLower(operatingSystem)
-	homeDir, _ := os.UserHomeDir()
-	filePath := ""
-	if strings.Contains(operatingSystem, "windows") {
-		filePath = homeDir + "\\AppData\\Local\\Cli-Chat\\config.yml"
-	} else {
-		filePath = homeDir + "/.Cli-Chat/config.yml"
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatalf("error getting home directory: %v", err)
 	}
+
+	var filePath string
+	if runtime.GOOS == "windows" {
+		filePath = filepath.Join(homeDir, "AppData", "Local", "Cli-Chat", "config.yml")
+	} else {
+		filePath = filepath.Join(homeDir, ".Cli-Chat", "config.yml")
+	}
+
+	err = os.MkdirAll(filepath.Dir(filePath), 0755)
+	if err != nil {
+		log.Fatalf("error creating config directory: %v", err)
+	}
+
 	return filePath
 }
