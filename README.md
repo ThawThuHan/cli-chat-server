@@ -27,7 +27,7 @@ go build -o cli-chat-server main.go read_config.go
 
 ### Run from Pre-Build binary file
 #### Windows
-Download pre-build binary file [Cli-Chat-Server](https://github.com/ThawThuHan/cli-chat-server/releases/download/v1.0/cli-chat-server.exe) from release and run
+Download pre-build binary file [Cli-Chat-Server.exe](https://github.com/ThawThuHan/cli-chat-server/releases/download/v1.0/cli-chat-server.exe) from release and run
 ```sh
 ./cli-chat-server.exe
 ```
@@ -35,6 +35,17 @@ OR
 ```sh
 curl -o cli-chat-server.exe https://github.com/ThawThuHan/cli-chat-server/releases/download/v1.0/cli-chat-server.exe
 ./cli-chat-server.exe
+```
+
+#### Linux
+Download pre-build binary file [Cli-Chat-Server-Linux](https://github.com/ThawThuHan/cli-chat-server/releases/download/v1.0/cli-chat-server-linux) from release and run
+```sh
+./cli-chat-server-linux
+```
+OR
+```sh
+curl -o cli-chat-server-linux https://github.com/ThawThuHan/cli-chat-server/releases/download/v1.0/cli-chat-server-linux
+./cli-chat-server-linux
 ```
 
 ## To Change the Server Config
